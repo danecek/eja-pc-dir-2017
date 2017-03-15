@@ -4,3 +4,6 @@
 /RestCustomers/target/
 /RestCustomersClient/target/
 /CustomersClient/target/
+/WebMVC/target/
+/WebMVCEJB/target/
+/WebMVCEJB_JPA/target/
