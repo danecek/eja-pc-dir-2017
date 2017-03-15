@@ -6,9 +6,12 @@
 package mycompany.webmvc.integration;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceUtil;
 import javax.persistence.TypedQuery;
 import mycompany.webmvc.model.Customer;
 import mycompany.webmvc.model.MyOrder;
@@ -21,7 +24,7 @@ public class CustomerDAO {
 
     public List<Customer> getAll() {
         TypedQuery<Customer> tq
-                = em.createQuery("select c from Customer c", Customer.class);
+                = em.createNamedQuery("allCustomers", Customer.class);
         return tq.getResultList();
     }
 
@@ -43,9 +46,11 @@ public class CustomerDAO {
 
     public void addOrder(Long custId, String description) {
         Customer c = get(custId);
+
         MyOrder o = new MyOrder(description, c);
         em.persist(o);
-      //  c.getOrders().add(o);        
+        //  c.getOrders().add(o);        
     }
+    private static final Logger LOG = Logger.getLogger(CustomerDAO.class.getName());
 
 }
