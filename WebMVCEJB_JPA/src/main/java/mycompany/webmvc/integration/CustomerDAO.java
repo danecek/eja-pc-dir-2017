@@ -10,8 +10,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.PersistenceUtil;
 import javax.persistence.TypedQuery;
 import mycompany.webmvc.model.Customer;
 import mycompany.webmvc.model.MyOrder;
