@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <!--c:forEach var="cust" items="#{index.all}">
+        #{cust}  <br/>          
+    </c:forEach -->
+
+        <c:if test="#{empty index.all}">
+            <h1>No customer</h1>
+        </c:if>
+        <c:if test="#{not empty index.all}">
+            <h1>Customer</h1>
+        </c:if>
+
+        <h:dataTable var="cust"  value="#{index.all}" 
+                     rendered="#{not empty index.all}">
+            <h:column>
+                #{cust.id}
+            </h:column> 
+            <h:column>
+                #{cust.name}                
+            </h:column> 
+            <h:column>
+                <h:link outcome="deleteCustomer" value="Delete">
+                    <f:param name="id" value="#{cust.id}"/>
+                </h:link>
+            </h:column> 
+        </h:dataTable>
+
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="name" value="Name:"/>
+                <h:inputText id="name" value="#{index.name}" required="true"
+                             validatorMessage="Too short">
+                    <f:validateLength minimum="3" />
+                </h:inputText>
+                <h:message for="name" style="color:red"/>
+            </h:panelGrid>
+            <h:commandButton action="#{index.addCustomer}" 
+                             value="Add customer" />
+        </h:form>
+
+    </h:body>
+</html>
+
