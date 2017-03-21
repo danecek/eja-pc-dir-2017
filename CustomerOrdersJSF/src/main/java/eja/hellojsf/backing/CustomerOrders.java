@@ -6,6 +6,7 @@
 package eja.hellojsf.backing;
 
 import eja.hellojsf.data.Facade;
+import eja.hellojsf.model.Colors;
 import eja.hellojsf.model.Customer;
 import eja.hellojsf.model.Order;
 import java.util.List;
@@ -18,16 +19,41 @@ import javax.servlet.http.HttpServletRequest;
 @Model
 public class CustomerOrders {
 
+    /**
+     * @return the custId
+     */
+    public int getCustId() {
+        return customer.getId();
+    }
+
+    /**
+     * @param custId the custId to set
+     */
+    public void setCustId(int custId) {
+        customer = facade.findCustomer(custId);
+    }
+
+    /**
+     * @return the colors
+     */
+    public Colors[] getColors() {
+       return Colors.values();
+    }
+
     private Customer customer;
+
+    private int amount;
+    private Colors color;
+
     @Inject
-    Facade facade;
+    private Facade facade;
 
     @PostConstruct
     void init() {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest r = (HttpServletRequest) fc.getExternalContext().getRequest();
         String custIds = r.getParameter("custId");
-        customer = facade.find(Integer.parseInt(custIds));
+        setCustomer(getFacade().findCustomer(Integer.parseInt(custIds)));
     }
 
     public Customer getCustomer() {
@@ -41,17 +67,55 @@ public class CustomerOrders {
         this.customer = customer;
     }
 
-
     public List<Order> getCustomerOrderes() {
-        return facade.getOrders(customer);
+        return getCustomer().getOrders();//facade.getOrders(customer);
     }
 
+    /**
+     * @return the amount
+     */
+    public int getAmount() {
+        return amount;
+    }
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * @return the color
+     */
+    public Colors getColor() {
+        return color;
+    }
+
+    /**
+     * @param color the color to set
+     */
+    public void setColor(Colors color) {
+        this.color = color;
+    }
+
+    /**
+     * @return the facade
+     */
+    public Facade getFacade() {
+        return facade;
+    }
+
+    /**
+     * @param facade the facade to set
+     */
+    public void setFacade(Facade facade) {
+        this.facade = facade;
+    }
 
     public String addOrder() {
-        return "customerOrders";
+        facade.addOrder(customer, new Order(amount, color));
+        return "customerOrders?faces-redirect=true&custId=" + customer.getId();
     }
 
-    public String deleteOrder() {
-        return "customerOrders";
-    }
 }

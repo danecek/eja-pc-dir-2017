@@ -14,7 +14,7 @@ public class Order {
     private int id;
     private int amount;
     private Colors color;
-    Customer customer;
+    private Customer customer;
 
     public Order(int amount, Colors color) {
         this.amount = amount;
@@ -60,10 +60,17 @@ public class Order {
         this.color = color;
     }
 
-    void setCustomer(Customer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
-    
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", amount=" + amount + ", color=" + color + ", customer=" + customer.getName() + '}';
+    }
 
 }

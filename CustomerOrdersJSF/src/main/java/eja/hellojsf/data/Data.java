@@ -19,8 +19,9 @@ import javax.inject.Singleton;
 public class Data {
 
     private NavigableMap<Integer, Customer> customers = new ConcurrentSkipListMap<>();
+    private NavigableMap<Integer, Order> orderes = new ConcurrentSkipListMap<>();
 
-    public void add(Customer c) {
+    public void addCustomer(Customer c) {
         int id = 1;
         if (!customers.isEmpty()) {
             id = customers.lastKey() + 1;
@@ -28,14 +29,25 @@ public class Data {
         c.setId(id);
         customers.put(c.getId(), c);
     }
+    
+    public void addOrder(Customer c, Order o) {
+        int id = 1;
+        if (!orderes.isEmpty()) {
+            id = orderes.lastKey() + 1;
+        }
+        o.setId(id);
+        orderes.put(o.getId(), o);
+        c.getOrders().add(o);
+        o.setCustomer(c);
+    }
 
     @PostConstruct
     void init() {
         Customer t = new Customer("Tom");
-        t.addOrder(new Order(3, Colors.BLUE));
-        t.addOrder(new Order(3, Colors.GREEN));
-        add(t);
-        add(new Customer("Bob"));
+        addCustomer(t);
+        addOrder(t, new Order(3, Colors.BLUE));
+        addOrder(t, new Order(5, Colors.GREEN));
+        addCustomer(new Customer("Bob"));
     }
 
     public List<Customer> all() {
@@ -46,11 +58,15 @@ public class Data {
         customers.remove(c.getId());
     }
 
-    public Customer find(int id) {
+    public Customer findCustomer(int id) {
         return customers.get(id);
     }
 
     public List<Order> getOrders(Customer customer) {
         return customers.get(customer.getId()).getOrders();
+    }
+
+    public Order findOrder(int orderId) {
+        return orderes.get(orderId);
     }
 }

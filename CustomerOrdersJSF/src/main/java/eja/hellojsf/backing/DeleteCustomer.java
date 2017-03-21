@@ -28,7 +28,7 @@ public class DeleteCustomer {
         ExternalContext ec = fc.getExternalContext();
         HttpServletRequest req = (HttpServletRequest) ec.getRequest();
         int id = Integer.parseInt(req.getParameter("id"));
-        customer = facade.find(id);
+        customer = facade.findCustomer(id);
     }
 
     public String deleteCustomer() {

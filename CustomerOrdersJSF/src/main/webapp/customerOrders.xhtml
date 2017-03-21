@@ -6,6 +6,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
+        <!--f:metadata>
+            <f:viewParam name="custId" value="#{customerOrders.custId}"/>
+        </f:metadata-->
     </h:head>
     <h:body>
 
@@ -32,12 +35,28 @@
                     #{order.color}
             </h:column>
             <h:column>
-                <f:facet name="header">Delete</f:facet>
-                <h:button outcome="deleteOrder">
+                <h:button outcome="deleteOrder" value="Delete">
                     <f:param name="orderId" value = "#{order.id}" />
                 </h:button>
             </h:column>
         </h:dataTable>
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="amount" value="Amount:"/>
+                <h:inputText id = "amount" value="#{customerOrders.amount}"
+                             validatorMessage="Must be positive">
+                    <f:validateLongRange minimum="1" />
+                </h:inputText>
+                <h:message for="amount" style="color:red"/>
+                <h:outputLabel for="color" value="Color:"/>
+                <h:selectOneMenu id="color" value="#{customerOrders.color}">
+                    <f:selectItems  value="#{customerOrders.colors}"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:commandButton action="#{customerOrders.addOrder()}" value="Add order">
+                <f:param name="custId" value="#{customerOrders.customer.id}"/>
+            </h:commandButton>
+        </h:form>
     </h:body>
 </html>
 
