@@ -41,18 +41,20 @@
                     </h:column> 
                 </h:dataTable>
 
-                <h:form>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel for="name" value="Name:"/>
-                        <h:inputText id="name" value="#{index.name}" required="true"
-                                     validatorMessage="Too short">
-                            <f:validateLength minimum="3" />
-                        </h:inputText>
-                        <h:message for="name" style="color:red"/>
-                    </h:panelGrid>
-                    <h:commandButton action="#{index.addCustomer}" 
-                                     value="Add customer" />
-                </h:form>
+                <c:if test="#{login.loggedAdmin}" >
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:outputLabel for="name" value="Name:"/>
+                            <h:inputText id="name" value="#{index.name}" required="true"
+                                         validatorMessage="Too short">
+                                <f:validateLength minimum="3" />
+                            </h:inputText>
+                            <h:message for="name" style="color:red"/>
+                        </h:panelGrid>
+                        <h:commandButton action="#{index.addCustomer}" 
+                                         value="Add customer" />
+                    </h:form>
+                </c:if>
             </ui:define>
         </ui:composition>
 

@@ -18,6 +18,10 @@
                             <f:validateLength minimum="3" />
                         </h:inputText>
                         <h:message for="user" style="color:red"/>
+                        
+                        <h:outputLabel for="passw" value="Password:"/>
+                        <h:inputSecret label="passw" id = "passw" value="#{login.passw}"/>
+                        <h:message  for="passw" style="color:red"/>
                     </h:panelGrid>
                     <h:commandButton action="#{login.login()}" value="Login"/>
                 </h:form>

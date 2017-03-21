@@ -8,18 +8,21 @@ package eja.hellojsf.data;
 import eja.hellojsf.model.Customer;
 import eja.hellojsf.model.Order;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 @Stateless
 public class Facade {
-   @Inject
-   Data data;
-   
-   public List<Customer> all() {
-     return data.all();
-   }
 
+    @Inject
+    Data data;
+
+    public List<Customer> all() {
+        return data.all();
+    }
+
+    @RolesAllowed({"admin"})
     public void addCustomer(Customer customer) {
         data.addCustomer(customer);
     }
@@ -37,8 +40,8 @@ public class Facade {
     }
 
     public void deleteOrder(Order order) {
-       Customer customer = data.findCustomer(order.getCustomer().getId());
-       customer.getOrders().remove(order);
+        Customer customer = data.findCustomer(order.getCustomer().getId());
+        customer.getOrders().remove(order);
     }
 
     public Order findOrder(int orderId) {
